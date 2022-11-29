@@ -9,11 +9,10 @@ class LawApp extends HTMLElement {
             ? this.getAttribute("href")
             : "https://www.legislation.gov.uk/ukpga/1982/11/data.akn";
 
-        url = "https://www.legislation.gov.uk/ukpga/1982/11/data.akn";
         fetch(url)
             .then(response => response.text())
             .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-            .then(data => { console.log(data.children[0]); this.shadowRoot.append(data.children[0]); });
+            .then(data => { console.log(data); this.shadowRoot.append(data.children[0]); });
 
         const linkElem = document.createElement("link");
         linkElem.setAttribute("rel", "stylesheet");
