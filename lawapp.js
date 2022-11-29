@@ -12,7 +12,7 @@ class LawApp extends HTMLElement {
         fetch(url)
             .then(response => response.text())
             .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-            .then(data => { console.log(data); this.shadowRoot.append(data.children[0]); });
+            .then(data => { console.log({data}); this.shadowRoot.append(data.children[0]); });
 
         const linkElem = document.createElement("link");
         linkElem.setAttribute("rel", "stylesheet");
