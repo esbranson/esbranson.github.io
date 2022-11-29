@@ -5,14 +5,11 @@ class LawApp extends HTMLElement {
         // Create a shadow root
         this.attachShadow({ mode: "open" }); // sets and returns 'this.shadowRoot'
 
-        let url = this.hasAttribute("href")
+        const url = this.hasAttribute("href")
             ? this.getAttribute("href")
             : "https://www.legislation.gov.uk/ukpga/1982/11/data.akn";
 
-        fetch(url)
-            .then(response => response.text())
-            .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
-            .then(data => { console.log({data}); this.shadowRoot.append(data.children[0]); });
+        this.doFetch(url).then(data => this.shadowRoot.append(data.children[0]));
 
         const linkElem = document.createElement("link");
         linkElem.setAttribute("rel", "stylesheet");
@@ -20,19 +17,20 @@ class LawApp extends HTMLElement {
         this.shadowRoot.appendChild(linkElem);
     }
 
-    async doFetch(qid) {
+    async doFetch(url) {
         try {
-            const uri = 'https://www.wikidata.org/wiki/Special:EntityData/' + qid;
             // access-control-allow-origin: *
-            let response = await fetch(uri, { headers: { 'accept': 'application/ld+json' } });
+            const response = await fetch(url);
             if (response.ok) {
-                const json = await response.json();
-                console.log('[index]', qid, json['@graph'][1]['@id']);
+                const str = await response.text();
+                const data = new window.DOMParser().parseFromString(str, "text/xml");
+                console.debug({data})
+                return data;
             } else {
-                console.debug(response);
+                console.error(response);
             }
         } catch (e) {
-            console.debug(e);
+            console.error(e);
         }
     }
 }
