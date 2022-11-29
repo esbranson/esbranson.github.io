@@ -1,11 +1,48 @@
-<!DOCTYPE HTML>
-<html>
+<!doctype html>
+<html lang="en">
+
 <head>
-	<title>Eric Branson's GitHub</title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-	<meta http-equiv="refresh" content="0; url=http://esbranson.github.io/SPARQL/index.html">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Law App</title>
+    <meta name="color-scheme" content="dark light">
+    <style>
+        :root {
+            color-scheme: dark light;
+        }
+    </style>
+    <meta name="description" content="An app to help read laws">
+    <link rel="canonical" href="https://ericbranson.dev/openlaw/">
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="icon-512x512.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff9900">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["SoftwareApplication","WebApplication"],
+      "name": "Law App",
+      "operatingSystem": "*",
+      "applicationCategory": "HealthApplication",
+      "license" : "https://creativecommons.org/publicdomain/zero/1.0/",
+      "isAccessibleForFree" : true,
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "0",
+        "ratingCount": "1"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
 </head>
+
 <body>
-If you are not redirected automatically, follow the <a href="http://esbranson.github.io/SPARQL/index.html">link to the demo</a>.
+    <law-app href="https://www.govinfo.gov/link/plaw/117/public/169?link-type=uslm"></law-app>
+    <script type='module' src='lawapp.js'></script>
 </body>
+
 </html>
