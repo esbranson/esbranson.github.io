@@ -14,6 +14,11 @@ class LawApp extends HTMLElement {
             .then(response => response.text())
             .then(str => new window.DOMParser().parseFromString(str, "text/xml"))
             .then(data => { console.log(data.children[0]); this.shadowRoot.append(data.children[0]); });
+
+        const linkElem = document.createElement("link");
+        linkElem.setAttribute("rel", "stylesheet");
+        linkElem.setAttribute("href", "akn.css");
+        this.shadowRoot.appendChild(linkElem);
     }
 
     async doFetch(qid) {
