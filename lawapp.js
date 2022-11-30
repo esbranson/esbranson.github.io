@@ -10,11 +10,11 @@ class LawApp extends HTMLElement {
         // Create a shadow root
         this.attachShadow({ mode: "open" }); // sets and returns 'this.shadowRoot'
 
-        this._href = this.hasAttribute("href")
+        this.href = this.hasAttribute("href")
             ? this.getAttribute("href")
             : "https://www.legislation.gov.uk/ukpga/1982/11/data.akn";
 
-        this._filter = this.hasAttribute("filter")
+        this.filter = this.hasAttribute("filter")
             ? this.getFilter(this.getAttribute("filter"))
             : "";
     }
@@ -37,15 +37,28 @@ class LawApp extends HTMLElement {
         results.map((result) => result.remove());
     }
 
-    set href(val) {
-        this._href = val;
-        console.debug('set href', { val });
+    set href(value) {
+        console.debug('set href', { value });
+        console.debug('set href', this.filter, value);
+
+        this._href = value;
+        if (this.filter) {
+            this.doFetch(value).then(data => this.doIt(data, this.filter));
+        }
     }
 
-    get href() {
-        console.debug('get href');
-        return this._href;
+    set filter(value) {
+        console.debug('set filter', { value });
+        console.debug('set filter', value, this.href);
+
+        this._filter = value;
+        if (this.href) {
+            this.doFetch(this.href).then(data => this.doIt(data, value));
+        }
     }
+
+    get href() { return this._href; }
+    get filter() { return this._filter; }
 
     static get observedAttributes() {
         return ['href', 'filter'];
@@ -53,22 +66,20 @@ class LawApp extends HTMLElement {
 
     attributeChangedCallback(name, oldValue, newValue) {
         console.debug('attribute changed', { name }, { newValue });
-        if (oldValue == newValue) {return;}
+        if (oldValue == newValue) { return; }
 
-        if (name == "href" && this._href != newValue) {
-            this._href = newValue;
-            this.doFetch(this._href).then(data => this.doIt(data, this._filter));
+        if (name == "href" && this.href != newValue) {
+            this.href = newValue;
         }
-        else if (name == "filter" && this._filter != newValue) {
-            this._filter = this.getFilter(newValue);
-            this.doFetch(this._href).then(data => this.doIt(data, this._filter));
+        else if (name == "filter" && this.filter != this.getFilter(newValue)) {
+            this.filter = this.getFilter(newValue);
         }
     }
 
     getFilter(filter_list_str) {
         const list = filter_list_str?.split(/[\s]+/);
         const xpath = list?.map(str => ('//an:' + str)).join('|');
-        console.debug({ xpath });
+        console.debug('xpath', { xpath });
         return xpath;
     }
 
@@ -79,7 +90,7 @@ class LawApp extends HTMLElement {
             if (response.ok) {
                 const str = await response.text();
                 const data = new window.DOMParser().parseFromString(str, "text/xml");
-                console.debug({ data })
+                console.debug('doFetch', { data })
                 return data;
             } else {
                 console.error(response);
