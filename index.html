@@ -2,22 +2,22 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <title>🪿 Law App</title>
-    <meta name="color-scheme" content="dark light">
-    <style>
-        :root {
-            color-scheme: dark light;
-        }
-    </style>
-    <meta name="description" content="An app to help read laws">
-    <link rel="canonical" href="https://esbranson.github.io/">
-    <link rel="icon" href="favicon.ico">
-    <link rel="apple-touch-icon" href="icon-512x512.png">
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#ff9900">
-    <script type="application/ld+json">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width">
+  <title>🪿 Law App</title>
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root {
+      color-scheme: dark light;
+    }
+  </style>
+  <meta name="description" content="An app to help read laws">
+  <link rel="canonical" href="https://esbranson.github.io/">
+  <link rel="icon" href="favicon.ico">
+  <link rel="apple-touch-icon" href="icon-512x512.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ff9900">
+  <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": ["SoftwareApplication","WebApplication"],
@@ -41,8 +41,16 @@
 </head>
 
 <body>
-    <law-app filter="content num intro" href="https://www.legislation.gov.uk/ukpga/2022/37/data.akn"></law-app>
-    <script type='module' src='lawapp.js'></script>
+  <label>Input URL:
+    <input id="url" type="url" required>
+  </label>
+  <label>Filter:
+    <input id="filter" type="checkbox" required>
+  </label>
+  <input type="button" onclick="" value="Open">
+
+  <law-app filter="content num intro" href="https://www.legislation.gov.uk/ukpga/2022/37/data.akn"></law-app>
+  <script type='module' src='lawapp.js'></script>
 </body>
 
 </html>
