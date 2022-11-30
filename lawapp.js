@@ -1,4 +1,7 @@
 class LawApp extends HTMLElement {
+    #_href;
+    #_filter;
+
     constructor() {
         super();
 
@@ -7,29 +10,59 @@ class LawApp extends HTMLElement {
         // Create a shadow root
         this.attachShadow({ mode: "open" }); // sets and returns 'this.shadowRoot'
 
-        const url = this.hasAttribute("href")
+        this._href = this.hasAttribute("href")
             ? this.getAttribute("href")
             : "https://www.legislation.gov.uk/ukpga/1982/11/data.akn";
 
-        const filter = this.hasAttribute("filter")
+        this._filter = this.hasAttribute("filter")
             ? this.getFilter(this.getAttribute("filter"))
-            : $null; // XXX
+            : "";
+    }
 
-        this.doFetch(url).then(data => this.doIt(data, filter));
+    doIt(data, filter) {
+        this.doFilter(data, filter);
+
+        this.shadowRoot.textContent = '';
 
         const linkElem = document.createElement("link");
         linkElem.setAttribute("rel", "stylesheet");
         linkElem.setAttribute("href", "akn.css");
         this.shadowRoot.appendChild(linkElem);
-    }
 
-    doIt(data, filter) {
-        this.doFilter(data, filter);
         this.shadowRoot.append(data.children[0]);
     }
 
     doFilter(document, filter) {
-        Array.from(document.evaluate(filter, document, () => "http://docs.oasis-open.org/legaldocml/ns/akn/3.0", XPathResult.ANY_TYPE, null)).map((result) => console.debug(result.remove()));
+        const results = Array.from(document.evaluate(filter, document, () => "http://docs.oasis-open.org/legaldocml/ns/akn/3.0", XPathResult.ANY_TYPE, null));
+        results.map((result) => result.remove());
+    }
+
+    set href(val) {
+        this._href = val;
+        console.debug('set href', { val });
+    }
+
+    get href() {
+        console.debug('get href');
+        return this._href;
+    }
+
+    static get observedAttributes() {
+        return ['href', 'filter'];
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        console.debug('attribute changed', { name }, { newValue });
+        if (oldValue == newValue) {return;}
+
+        if (name == "href" && this._href != newValue) {
+            this._href = newValue;
+            this.doFetch(this._href).then(data => this.doIt(data, this._filter));
+        }
+        else if (name == "filter" && this._filter != newValue) {
+            this._filter = this.getFilter(newValue);
+            this.doFetch(this._href).then(data => this.doIt(data, this._filter));
+        }
     }
 
     getFilter(filter_list_str) {
