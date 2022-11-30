@@ -34,8 +34,8 @@ class LawApp extends HTMLElement {
 
     getFilter(filter_list_str) {
         const list = filter_list_str?.split(/[\s]+/);
-        const xpath = list?.map(str => ('//an:'+str)).join('|');
-        console.debug({xpath});
+        const xpath = list?.map(str => ('//an:' + str)).join('|');
+        console.debug({ xpath });
         return xpath;
     }
 
@@ -63,11 +63,11 @@ class LawApp extends HTMLElement {
                 case XPathResult.UNORDERED_NODE_ITERATOR_TYPE:
                 case XPathResult.ORDERED_NODE_ITERATOR_TYPE:
                     let result;
-                    while ( (result = this.iterateNext()) != null ) yield result;
+                    while ((result = this.iterateNext()) != null) yield result;
                     break;
                 case XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE:
                 case XPathResult.ORDERED_NODE_SNAPSHOT_TYPE:
-                    for (let i=0; i < this.snapshotLength; i++) yield this.snapshotItem(i);
+                    for (let i = 0; i < this.snapshotLength; i++) yield this.snapshotItem(i);
                     break;
                 default:
                     yield this.singleNodeValue;
