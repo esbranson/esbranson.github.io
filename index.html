@@ -23,7 +23,7 @@
       "@type": ["SoftwareApplication","WebApplication"],
       "name": "🪿 Law App",
       "operatingSystem": "*",
-      "applicationCategory": "HealthApplication",
+      "applicationCategory": "https://www.wikidata.org/wiki/Special:EntityData/Q7748",
       "license" : "https://creativecommons.org/publicdomain/zero/1.0/",
       "isAccessibleForFree" : true,
       "aggregateRating": {
@@ -38,6 +38,17 @@
       }
     }
     </script>
+  <script>
+    async function doEet() {
+      const urlText = document.getElementById("url").value;
+      console.debug('index', { urlText });
+      const url = new URL(urlText);
+      console.log("User information:", { url });
+
+      const app = document.getElementById("app");
+      app.href = url.href;
+    }
+  </script>
 </head>
 
 <body>
@@ -47,9 +58,9 @@
   <label>Filter:
     <input id="filter" type="checkbox" required>
   </label>
-  <input type="button" onclick="" value="Open">
+  <input type="button" onclick="doEet()" value="Open">
 
-  <law-app filter="content num intro" href="https://www.legislation.gov.uk/ukpga/2022/37/data.akn"></law-app>
+  <law-app id="app" filter="content num intro" href="https://www.legislation.gov.uk/ukpga/2022/37/data.akn"></law-app>
   <script type='module' src='lawapp.js'></script>
 </body>
 

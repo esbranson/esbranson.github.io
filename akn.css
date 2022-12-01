@@ -9,7 +9,7 @@
 /* Version 2.17 2021-09-09 */
 
 /* USLM root elements*/
-act, bill, resolution, pLaw,
+bill, resolution, act,
 statutesAtLarge, statuteCompilation,
 cfrDoc, frDoc, uscDoc {
     font-family: "Century Schoolbook", "NewCenturySchlbk", "Times New Roman", serif;
@@ -20,7 +20,7 @@ cfrDoc, frDoc, uscDoc {
 /* Not using rem units because the USLM sometimes lives within a 'div' of a surrounding application */
 /* Use serifed font to match printed bills and U.S. Code */
 
-act, bill, resolution, pLaw,
+bill, resolution, act,
 statutesAtLarge, statuteCompilation  {
     display:            block;
     margin:             1em;
@@ -88,25 +88,25 @@ meta {
 /* An override stylesheet may be used to set fixed width without scaling narrower when the window is not wide enough */
 bill[class~="mimicGPOPrint"],
 resolution[class~="mimicGPOPrint"],
-pLaw[class~="mimicGPOPrint"],
-statutesAtLarge[class~="mimicGPOPrint"] pLaw,
+act[class~="mimicGPOPrint"],
+statutesAtLarge[class~="mimicGPOPrint"] act,
 statutesAtLarge[class~="mimicGPOPrint"] resolution {
     max-width:          46.8em;  /* 468 points including side note space */
 }
 
 /* Set margin space on the right for sidenotes on Public Laws and Statutes at Large */
-pLaw>main,
-pLaw>preface,
-pLaw>signatures,
-pLaw>appendix,
+act>main,
+act>preface,
+act>signatures,
+act>appendix,
 statutesAtLarge resolution>main,
 statutesAtLarge resolution>preface,
 statutesAtLarge resolution>signatures,
 statutesAtLarge resolution>appendix,
-statutesAtLarge pLaw>main,
-statutesAtLarge pLaw>preface,
-statutesAtLarge pLaw>signatures,
-statutesAtLarge pLaw>appendix  {
+statutesAtLarge act>main,
+statutesAtLarge act>preface,
+statutesAtLarge act>signatures,
+statutesAtLarge act>appendix  {
     margin-left:        0em; /*  None, since side notes are put on the right */
     margin-right:       9em;
 }
@@ -200,7 +200,7 @@ enrolledDateline   {
 }
 
 /* Public & Private Law Preface */
-pLaw preface>coverTitle  {
+act preface>coverTitle  {
     display:            block;
     margin-top:         1em;
     margin-bottom:      1em;
@@ -208,20 +208,20 @@ pLaw preface>coverTitle  {
     font-size:          1.4em;  /* 14 point font in the PDF */
 }
 
-pLaw>preface>dc|type,
-pLaw>preface>docNumber,
-pLaw>preface>congress  {
+act>preface>dc|type,
+act>preface>docNumber,
+act>preface>congress  {
     display:            inline-block;
     margin-top:         1em;
     text-align:         left;
     font-size:          1.2em;
 }
 
-pLaw>preface>docNumber  {
+act>preface>docNumber  {
     margin-left:        0.25em;
 }
 
-pLaw>preface>congress  {
+act>preface>congress  {
     display:            block;
     margin-top:          0em;
 }
@@ -733,7 +733,7 @@ agencyGroup  {
 /*  Suppress display of metadata in components */
 component>*>meta,
 component>*>meta *,
-component>pLaw>meta:before,
+component>act>meta:before,
 component>resolution>meta:before  {
     display:none;
 }
@@ -1350,7 +1350,7 @@ longTitle>docTitle  {
     font-family:        "Old English Text MT", serif;
 }
 
-pLaw>main>longTitle>docTitle  {
+act>main>longTitle>docTitle  {
     font-size:          1.2em;  /* 12 point font in the pdf */
 	font-family: 		"Century Schoolbook", "NewCenturySchlbk", "Times New Roman", serif;
 }
@@ -1387,7 +1387,7 @@ bill>main>section  {
 }
 
 bill>main title>num, bill>main title>a>num, bill>main title>heading,
-pLaw>main title>num, pLaw>main title>a>num, pLaw>main title>heading
+act>main title>num, act>main title>a>num, act>main title>heading
 {
     display:            block;
     margin-top:         1em;
@@ -1446,14 +1446,14 @@ section[identifier*="/us/usc"]>heading  {
 /* Bill Section nums and headings are all caps and smaller font size*/
 bill section>num, bill section>a>num, bill section>heading,
 resolution section>num, resolution section>a>num, resolution section>heading,
-pLaw section>num, pLaw section>a>num, pLaw section>heading  {
+act section>num, act section>a>num, act section>heading  {
     font-size:          0.8em;
 }
 
 /* Bill Sections with a heading that preceeds the num have the heading centered on a separate line */
 bill>main section > heading:first-child,
 resolution>main section > heading:first-child,
-pLaw>main section > heading:first-child  {
+act>main section > heading:first-child  {
     display:            block;
     text-align:         center;
     margin-bottom:      0.5em;
@@ -1464,8 +1464,8 @@ bill>main section > num + content,
 bill>main section > num + chapeau,
 resolution>main section > num + content,
 resolution>main section > num + chapeau,
-pLaw>main section > num + content,
-pLaw>main section > num + chapeau  {
+act>main section > num + content,
+act>main section > num + chapeau  {
     display:            inline;
 }
 
@@ -1478,10 +1478,10 @@ resolution>main section > heading + num,
 resolution>main section > num:first-child,
 resolution>main section > content:first-child,
 resolution>main section > chapeau:first-child,
-pLaw>main section > heading + num,
-pLaw>main section > num:first-child,
-pLaw>main section > content:first-child,
-pLaw>main section > chapeau:first-child  {
+act>main section > heading + num,
+act>main section > num:first-child,
+act>main section > content:first-child,
+act>main section > chapeau:first-child  {
     text-indent:        2em;
 }
 
@@ -1510,7 +1510,7 @@ paragraph>p:first-of-type  {
     display:            inline;
 }
 
-pLaw > main > action  {
+act > main > action  {
     display:            block;
     margin-top:         1em;
     margin-left:        1em;
@@ -1765,7 +1765,7 @@ toc[role="twoColumnPageWidthTOC"] column[class~="twoColumnRight"] {
 
 /* USLM 2.0 ToC rules */
 /* ToC's are blocks */
-bill toc, resolution toc, pLaw toc  {
+bill toc, resolution toc, act toc  {
     display:            block;
     background-color:   inherit;
     font-size:          0.8em;
@@ -1806,9 +1806,9 @@ bill toc > referenceItem[role="subtitle"],
 resolution toc referenceItem[role="division"],
 resolution toc > referenceItem[role="title"],
 resolution toc > referenceItem[role="subtitle"],
-pLaw toc referenceItem[role="division"],
-pLaw toc > referenceItem[role="title"],
-pLaw toc > referenceItem[role="subtitle"]  {
+act toc referenceItem[role="division"],
+act toc > referenceItem[role="title"],
+act toc > referenceItem[role="subtitle"]  {
     display:            block;
     background-color:   inherit;
     margin-top:         0.5em;
@@ -1828,37 +1828,37 @@ resolution toc referenceItem[role="title"] > designator,
 resolution toc referenceItem[role="title"] > label,
 resolution toc referenceItem[role="subtitle"] > designator,
 resolution toc referenceItem[role="subtitle"] > label,
-plaw toc referenceItem[role="division"] > designator,
-plaw toc referenceItem[role="division"] > label,
-plaw toc referenceItem[role="title"] > designator,
-plaw toc referenceItem[role="title"] > label,
-plaw toc referenceItem[role="subtitle"] > designator,
-plaw toc referenceItem[role="subtitle"] > label  {
+act toc referenceItem[role="division"] > designator,
+act toc referenceItem[role="division"] > label,
+act toc referenceItem[role="title"] > designator,
+act toc referenceItem[role="title"] > label,
+act toc referenceItem[role="subtitle"] > designator,
+act toc referenceItem[role="subtitle"] > label  {
     display:            inline;
 }
 
 /* Nested entries are set back to left align */
 bill toc referenceItem[role="division"] referenceItem,
 resolution toc referenceItem[role="division"] referenceItem,
-pLaw toc referenceItem[role="division"] referenceItem  {
+act toc referenceItem[role="division"] referenceItem  {
     text-align:         left;
 }
 
 resolution toc referenceItem[role="section"]:first-of-type *,
 bill toc referenceItem[role="section"]:first-of-type *,
-pLaw toc referenceItem[role="section"]:first-of-type *  {
+act toc referenceItem[role="section"]:first-of-type *  {
     padding-top:         1em;
 }
 
 bill toc referenceItem[role="section"]>designator,
 resolution toc referenceItem[role="section"]>designator,
-pLaw toc referenceItem[role="section"]>designator  {
+act toc referenceItem[role="section"]>designator  {
     width:              6em;
 }
 
 bill toc referenceItem[role="section"]>label,
 resolution toc referenceItem[role="section"]>label,
-pLaw toc referenceItem[role="section"]>label  {
+act toc referenceItem[role="section"]>label  {
     text-indent:        -1em;
     padding-left:        1em;
 }
@@ -2489,7 +2489,7 @@ sidenote:not(:first-of-type) {
 
 /* Enactment Date sidenote */
 sidenote[topic~="enactment"],
-pLaw longTitle > sidenote,
+act longTitle > sidenote,
 resolution sidenote:first-of-type  {
   margin-top:           -3em;
   text-align:           center;
@@ -2497,20 +2497,20 @@ resolution sidenote:first-of-type  {
 
 /* To simulate the line between date and the bill number */
 sidenote[topic~="enactment"] date,
-pLaw longTitle > sidenote > p:first-of-type,
+act longTitle > sidenote > p:first-of-type,
 resolution sidenote:first-of-type > p:first-of-type  {
   text-decoration:      underline;
 }
 
 sidenote[topic~="shortTitle"],
 sidenote[topic~="classification"],
-sidenote[topic~="pLawNote"]  {
+sidenote[topic~="actNote"]  {
   font-size:            0.8em;
 }
 
 /* Special case for sidenote after enacting formula or resolving clause */
-pLaw enactingFormula + sidenote,
-pLaw resolvingClause + sidenote  {
+act enactingFormula + sidenote,
+act resolvingClause + sidenote  {
   margin-top:           -2em;  /* move it up by two lines */
 }
 
@@ -3170,7 +3170,7 @@ xhtml|p[class~="leaders"] xhtml|span:first-child {
 
 
 /* Metadata block */
-uscDoc>meta, bill>meta, resolution>meta, pLaw>meta, statutesAtLarge>meta,
+uscDoc>meta, bill>meta, resolution>meta, act>meta, statutesAtLarge>meta,
 frDoc>meta, cfrDoc>meta, statutesAtLarge component>meta  {
     display:            none;
     border-style:       solid;
@@ -3185,7 +3185,7 @@ frDoc>meta, cfrDoc>meta, statutesAtLarge component>meta  {
     color:              gray;
 }
 
-uscDoc>meta:before, bill>meta:before, resolution>meta:before, pLaw>meta:before, statutesAtLarge>meta:before,
+uscDoc>meta:before, bill>meta:before, resolution>meta:before, act>meta:before, statutesAtLarge>meta:before,
 frDoc>meta:before, cfrDoc>meta:before, statutesAtLarge component>meta:before  {
     display:            inline;
     color:              gray;

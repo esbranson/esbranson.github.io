@@ -1,67 +1,93 @@
 class LawApp extends HTMLElement {
-    #_href;
-    #_filter;
+    #href;
+    #filter;
+    #rootElement;
 
     constructor() {
         super();
 
-        this.XPathResultPolyfill();
-
         // Create a shadow root
         this.attachShadow({ mode: "open" }); // sets and returns 'this.shadowRoot'
 
-        this.href = this.hasAttribute("href")
-            ? this.getAttribute("href")
-            : "https://www.legislation.gov.uk/ukpga/1982/11/data.akn";
+        this.XPathResultPolyfill();
 
         this.filter = this.hasAttribute("filter")
-            ? this.getFilter(this.getAttribute("filter"))
+            ? LawApp.getFilter(this.getAttribute("filter"))
             : "";
+
+        this.href = this.hasAttribute("href")
+            ? this.getAttribute("href")
+            : "";
+
+        const linkElemAN = document.createElement("link");
+        linkElemAN.setAttribute("rel", "stylesheet");
+        linkElemAN.setAttribute("href", "akn.css");
+        this.shadowRoot.appendChild(linkElemAN);
+
+        const linkElemUSLM = document.createElement("link");
+        linkElemUSLM.setAttribute("rel", "stylesheet");
+        linkElemUSLM.setAttribute("href", "uslm.css");
+        this.shadowRoot.appendChild(linkElemUSLM);
+
+        const wrapper = document.createElement("span");
+        this.#rootElement = wrapper;
+        this.shadowRoot.append(wrapper);
     }
 
     doIt(data, filter) {
-        this.doFilter(data, filter);
+        if (filter) { LawApp.doFilter(data, filter); }
 
-        this.shadowRoot.textContent = '';
+        this.#rootElement.textContent = ''; // LOL
 
-        const linkElem = document.createElement("link");
-        linkElem.setAttribute("rel", "stylesheet");
-        linkElem.setAttribute("href", "akn.css");
-        this.shadowRoot.appendChild(linkElem);
+        const AkomaNtoso = data.children[0];
+        const wrapper = document.createElement("span");
+        wrapper.dataset.id = 0;
+        // Note: When the attribute is set, its value is always converted to a string. 
+        // For example: element.dataset.example = null is converted into data-example="null".
+        wrapper.append(AkomaNtoso);
 
-        this.shadowRoot.append(data.children[0]);
+        this.#rootElement.append(wrapper);
     }
 
-    doFilter(document, filter) {
+    static doFilter(document, filter) {
         const results = Array.from(document.evaluate(filter, document, () => "http://docs.oasis-open.org/legaldocml/ns/akn/3.0", XPathResult.ANY_TYPE, null));
         results.map((result) => result.remove());
     }
 
-    set href(value) {
-        console.debug('set href', { value });
-        console.debug('set href', this.filter, value);
+    //
+    // <https://open-wc.org/guides/knowledge/attributes-and-properties/>
+    //
+    // We recommend reflecting from an attribute to a property, but to avoid
+    // reflecting from properties to attributes. This is because with custom
+    // elements properties can update often and triggering a DOM change for
+    // each update can impact performance.
+    //
 
-        this._href = value;
-        if (this.filter) {
-            this.doFetch(value).then(data => this.doIt(data, this.filter));
+    set href(value) {
+        console.debug('set href', this.filter, { value });
+        if (value === this.#href) {return}
+
+        this.#href = value;
+        if (value) {
+            LawApp.doFetch(value).then(data => this.doIt(data, this.filter));
         }
     }
 
     set filter(value) {
-        console.debug('set filter', { value });
-        console.debug('set filter', value, this.href);
+        console.debug('set filter', { value }, this.href);
+        if (value === this.#filter) {return}
 
-        this._filter = value;
+        this.#filter = value;
         if (this.href) {
-            this.doFetch(this.href).then(data => this.doIt(data, value));
+            LawApp.doFetch(this.href).then(data => this.doIt(data, value));
         }
     }
 
-    get href() { return this._href; }
-    get filter() { return this._filter; }
+    get href() { return this.#href; }
+    get filter() { return this.#filter; }
 
     static get observedAttributes() {
-        return ['href', 'filter'];
+        return ["href", "filter"];
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -71,26 +97,27 @@ class LawApp extends HTMLElement {
         if (name == "href" && this.href != newValue) {
             this.href = newValue;
         }
-        else if (name == "filter" && this.filter != this.getFilter(newValue)) {
-            this.filter = this.getFilter(newValue);
+        else if (name == "filter" && this.filter != LawApp.getFilter(newValue)) {
+            this.filter = LawApp.getFilter(newValue);
         }
     }
 
-    getFilter(filter_list_str) {
-        const list = filter_list_str?.split(/[\s]+/);
+    static getFilter(filter_list_str) {
+        const list = filter_list_str?.split(/[\s]+/).filter(s => s.length);
         const xpath = list?.map(str => ('//an:' + str)).join('|');
         console.debug('xpath', { xpath });
         return xpath;
     }
 
-    async doFetch(url) {
+    static async doFetch(url) {
         try {
             // access-control-allow-origin: *
             const response = await fetch(url);
             if (response.ok) {
                 const str = await response.text();
                 const data = new window.DOMParser().parseFromString(str, "text/xml");
-                console.debug('doFetch', { data })
+                const an = data.children[0];
+                console.debug('doFetch', { an })
                 return data;
             } else {
                 console.error(response);
