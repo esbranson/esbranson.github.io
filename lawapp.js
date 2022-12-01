@@ -54,21 +54,13 @@ class LawApp extends HTMLElement {
         results.map((result) => result.remove());
     }
 
-    static nsResolver(prefix) {
-        const ns = {
-            'an': 'http://docs.oasis-open.org/legaldocml/ns/akn/3.0',
-            'uslm': 'http://schemas.gpo.gov/xml/uslm'
-        };
-        return ns[prefix] || null;
-    }
-
     //
     // <https://open-wc.org/guides/knowledge/attributes-and-properties/>
     //
-    // We recommend reflecting from an attribute to a property, but to avoid
+    // «We recommend reflecting from an attribute to a property, but to avoid
     // reflecting from properties to attributes. This is because with custom
     // elements properties can update often and triggering a DOM change for
-    // each update can impact performance.
+    // each update can impact performance.»
     //
 
     set href(value) {
@@ -110,6 +102,10 @@ class LawApp extends HTMLElement {
         }
     }
 
+    //
+    // Utilities
+    //
+
     static async doFetch(url) {
         try {
             // access-control-allow-origin: *
@@ -126,6 +122,14 @@ class LawApp extends HTMLElement {
         } catch (e) {
             console.error(e);
         }
+    }
+
+    static nsResolver(prefix) {
+        const ns = {
+            'an': 'http://docs.oasis-open.org/legaldocml/ns/akn/3.0',
+            'uslm': 'http://schemas.gpo.gov/xml/uslm'
+        };
+        return ns[prefix] || null;
     }
 
     // https://stackoverflow.com/questions/47017441/how-to-use-array-from-with-a-xpathresult/72548135#72548135
