@@ -39,13 +39,30 @@
     }
   </script>
   <style>
-    .controls {
-      display: grid;
-      grid-template-areas: "urlLabel"
-        "url"
-        "filterLabel"
-        "filter"
-        "button";
+    @media screen and (orientation: portrait) {
+      .controls {
+        display: grid;
+        grid-template-areas: "urlLabel"
+          "url"
+          "filterLabel"
+          "filter"
+          "button";
+      }
+    }
+
+    @media screen and (not (orientation: portrait)) {
+      .controls {
+        display: grid;
+        grid-template-areas: "urlLabel url filterLabel filter button";
+        justify-content: center;
+        column-gap: 1em;
+      }
+    }
+
+    @media print {
+      .controls {
+        display: none;
+      }
     }
 
     label[for="url"] {
