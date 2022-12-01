@@ -45,22 +45,26 @@
       const url = new URL(urlText);
       console.log("User information:", { url });
 
+      const filter = document.getElementById("filter").value;
+      console.log("User information:", { filter });
+
       const app = document.getElementById("app");
+      app.filter = filter;
       app.href = url.href;
     }
   </script>
 </head>
 
 <body>
-  <label>Input URL:
-    <input id="url" type="url" required>
+  <label>Akoma Ntoso URL:
+    <input id="url" type="url" value="https://www.legislation.gov.uk/ukpga/2022/37/data.akn" required>
   </label>
   <label>Filter:
-    <input id="filter" type="checkbox" required>
+    <input id="filter" type="text" value="//an:content|//an:num|//an:intro">
   </label>
   <input type="button" onclick="doEet()" value="Open">
 
-  <law-app id="app" filter="content num intro" href="https://www.legislation.gov.uk/ukpga/2022/37/data.akn"></law-app>
+  <law-app id="app"></law-app>
   <script type='module' src='lawapp.js'></script>
 </body>
 

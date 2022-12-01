@@ -12,7 +12,7 @@ class LawApp extends HTMLElement {
         this.XPathResultPolyfill();
 
         this.filter = this.hasAttribute("filter")
-            ? LawApp.getFilter(this.getAttribute("filter"))
+            ? this.getAttribute("filter")
             : "";
 
         this.href = this.hasAttribute("href")
@@ -50,8 +50,16 @@ class LawApp extends HTMLElement {
     }
 
     static doFilter(document, filter) {
-        const results = Array.from(document.evaluate(filter, document, () => "http://docs.oasis-open.org/legaldocml/ns/akn/3.0", XPathResult.ANY_TYPE, null));
+        const results = Array.from(document.evaluate(filter, document, LawApp.nsResolver, XPathResult.ANY_TYPE, null));
         results.map((result) => result.remove());
+    }
+
+    static nsResolver(prefix) {
+        const ns = {
+            'an': 'http://docs.oasis-open.org/legaldocml/ns/akn/3.0',
+            'uslm': 'http://schemas.gpo.gov/xml/uslm'
+        };
+        return ns[prefix] || null;
     }
 
     //
@@ -65,7 +73,7 @@ class LawApp extends HTMLElement {
 
     set href(value) {
         console.debug('set href', this.filter, { value });
-        if (value === this.#href) {return}
+        if (value === this.#href) { return }
 
         this.#href = value;
         if (value) {
@@ -75,7 +83,7 @@ class LawApp extends HTMLElement {
 
     set filter(value) {
         console.debug('set filter', { value }, this.href);
-        if (value === this.#filter) {return}
+        if (value === this.#filter) { return }
 
         this.#filter = value;
         if (this.href) {
@@ -97,16 +105,9 @@ class LawApp extends HTMLElement {
         if (name == "href" && this.href != newValue) {
             this.href = newValue;
         }
-        else if (name == "filter" && this.filter != LawApp.getFilter(newValue)) {
-            this.filter = LawApp.getFilter(newValue);
+        else if (name == "filter" && this.filter != newValue) {
+            this.filter = newValue;
         }
-    }
-
-    static getFilter(filter_list_str) {
-        const list = filter_list_str?.split(/[\s]+/).filter(s => s.length);
-        const xpath = list?.map(str => ('//an:' + str)).join('|');
-        console.debug('xpath', { xpath });
-        return xpath;
     }
 
     static async doFetch(url) {
