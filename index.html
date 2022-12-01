@@ -39,7 +39,7 @@
     }
     </script>
   <script>
-    async function doEet() {
+    async function doEat() {
       const urlText = document.getElementById("url").value;
       console.debug('index', { urlText });
       const url = new URL(urlText);
@@ -56,13 +56,22 @@
 </head>
 
 <body>
+  <datalist id="defaultURLs">
+    <option value="https://www.legislation.gov.uk/ukpga/1982/11/data.akn"></option>
+    <option value="https://www.legislation.gov.uk/ukpga/2022/37/data.akn"></option>
+  </datalist>
+  <datalist id="defaultFilters">
+    <option value=""></option>
+    <option value="//an:content|//an:num|//an:intro"></option>
+    <option value="//uslm:content[not(contains(@class,'block'))]|//uslm:num|//uslm:chapeau|//uslm:foreign"></option>
+  </datalist>
   <label>Akoma Ntoso URL:
-    <input id="url" type="url" value="https://www.legislation.gov.uk/ukpga/2022/37/data.akn" required>
+    <input id="url" name="url" type="url" list="defaultURLs" autocomplete="url" required/>
   </label>
-  <label>Filter:
-    <input id="filter" type="text" value="//an:content|//an:num|//an:intro">
+  <label>Filter (optional):
+    <input id="filter" type="text" list="defaultFilters">
   </label>
-  <input type="button" onclick="doEet()" value="Open">
+  <input type="button" onclick="doEat()" value="Open">
 
   <law-app id="app"></law-app>
   <script type='module' src='lawapp.js'></script>
