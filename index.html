@@ -42,10 +42,8 @@
     @media screen and (orientation: portrait) {
       .controls {
         display: grid;
-        grid-template-areas: "urlLabel"
-          "url"
-          "filterLabel"
-          "filter"
+        grid-template-areas: "urlLabel url"
+          "filterLabel filter"
           "button";
       }
     }
@@ -60,6 +58,10 @@
 
       #url {
         width: 30em;
+      }
+
+      #filter {
+        width: 45em;
       }
     }
 
@@ -108,7 +110,7 @@
   <div class="controls">
     <label for="url">Akoma Ntoso URL:</label>
     <input id="url" name="url" type="url" list="defaultURLs" required />
-    <label for="filter">XPath filter (optional):</label>
+    <label for="filter">XPath filter (to hide) (optional):</label>
     <input id="filter" name="filter" type="text" list="defaultFilters">
     <input type="button" onclick="doEat()" value="Open">
     <datalist id="defaultURLs">
