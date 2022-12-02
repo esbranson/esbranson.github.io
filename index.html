@@ -57,6 +57,10 @@
         justify-content: center;
         column-gap: 1em;
       }
+
+      #url {
+        width: 30em;
+      }
     }
 
     @media print {
@@ -87,9 +91,7 @@
   </style>
   <script>
     async function doEat() {
-      const urlText = document.getElementById("url").value;
-      console.debug('index', { urlText });
-      const url = new URL(urlText);
+      const url = document.getElementById("url").value;
       console.log("User information:", { url });
 
       const filter = document.getElementById("filter").value;
@@ -97,28 +99,30 @@
 
       const app = document.getElementById("app");
       app.filter = filter;
-      app.href = url.href;
+      app.href = url;
     }
   </script>
 </head>
 
 <body>
-  <span class="controls">
+  <div class="controls">
     <label for="url">Akoma Ntoso URL:</label>
     <input id="url" name="url" type="url" list="defaultURLs" required />
-    <label for="filter">Filter (optional):</label>
+    <label for="filter">XPath filter (optional):</label>
     <input id="filter" name="filter" type="text" list="defaultFilters">
     <input type="button" onclick="doEat()" value="Open">
     <datalist id="defaultURLs">
       <option value="https://www.legislation.gov.uk/ukpga/1982/11/data.akn"></option>
       <option value="https://www.legislation.gov.uk/ukpga/2022/37/data.akn"></option>
+      <option value="./samples/PLAW-117publ58.xml"></option>
+      <option value="./samples/PLAW-117publ169.xml"></option>
     </datalist>
     <datalist id="defaultFilters">
       <option value=""></option>
       <option value="//an:content|//an:num|//an:intro"></option>
       <option value="//uslm:content[not(contains(@class,'block'))]|//uslm:num|//uslm:chapeau|//uslm:foreign"></option>
     </datalist>
-  </span>
+  </div>
   <law-app id="app"></law-app>
   <script type='module' src='lawapp.js'></script>
 </body>
