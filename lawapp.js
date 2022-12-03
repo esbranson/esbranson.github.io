@@ -1,7 +1,7 @@
 class LawApp extends HTMLElement {
     #href;
     #filter;
-    #rootElement;
+    #rootElement; // non-nullable
 
     constructor() {
         super();
@@ -69,7 +69,7 @@ class LawApp extends HTMLElement {
 
         this.#href = value;
         if (value) {
-            LawApp.doFetch(value).then(data => this.doIt(data, this.filter));
+            LawApp.doFetch(value)?.then(data => this.doIt(data, this.filter));
         }
     }
 
@@ -79,7 +79,7 @@ class LawApp extends HTMLElement {
 
         this.#filter = value;
         if (this.href) {
-            LawApp.doFetch(this.href).then(data => this.doIt(data, value));
+            LawApp.doFetch(this.href)?.then(data => this.doIt(data, value));
         }
     }
 
