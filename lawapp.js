@@ -67,7 +67,6 @@ class LawApp extends HTMLElement {
 
     set href(value) {
         console.debug('set href', this.filter, { value });
-        if (value === this.#href) { return }
 
         if (value) {
             LawApp.doFetch(value)?.then(data => this.doIt(data, this.filter))?.then(() => {this.#href = value});
@@ -76,7 +75,6 @@ class LawApp extends HTMLElement {
 
     set filter(value) {
         console.debug('set filter', { value }, this.href);
-        if (value === this.#filter) { return }
 
         if (this.href) {
             LawApp.doFetch(this.href)?.then(data => this.doIt(data, value))?.then(() => {this.#filter = value});
