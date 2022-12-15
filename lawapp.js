@@ -35,6 +35,8 @@ class LawApp extends HTMLElement {
     }
 
     doIt(data, filter) {
+        if (data === undefined || data === null) { return; }
+
         if (filter) { LawApp.doFilter(data, filter); }
 
         this.#rootElement.textContent = ''; // LOL
@@ -67,9 +69,8 @@ class LawApp extends HTMLElement {
         console.debug('set href', this.filter, { value });
         if (value === this.#href) { return }
 
-        this.#href = value;
         if (value) {
-            LawApp.doFetch(value)?.then(data => this.doIt(data, this.filter));
+            LawApp.doFetch(value)?.then(data => this.doIt(data, this.filter))?.then(() => {this.#href = value});
         }
     }
 
@@ -77,9 +78,8 @@ class LawApp extends HTMLElement {
         console.debug('set filter', { value }, this.href);
         if (value === this.#filter) { return }
 
-        this.#filter = value;
         if (this.href) {
-            LawApp.doFetch(this.href)?.then(data => this.doIt(data, value));
+            LawApp.doFetch(this.href)?.then(data => this.doIt(data, value))?.then(() => {this.#filter = value});
         }
     }
 
