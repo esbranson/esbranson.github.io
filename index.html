@@ -52,18 +52,19 @@
 
     @media screen and (not (orientation: portrait)) {
       .controls {
-        display: grid;
-        grid-template-areas: "urlLabel url filterLabel filter button";
+        display: flex;
+        flex-flow: row wrap;
         justify-content: center;
         column-gap: 1em;
+        row-gap: 0.5em;
       }
 
       #url {
-        width: 30em;
+        min-width: 30em;
       }
 
       #filter {
-        width: 45em;
+        min-width: 45em;
       }
     }
 
@@ -71,26 +72,6 @@
       .controls {
         display: none;
       }
-    }
-
-    label[for="url"] {
-      grid-area: urlLabel;
-    }
-
-    #url {
-      grid-area: url;
-    }
-
-    label[for="filter"] {
-      grid-area: filterLabel;
-    }
-
-    #filter {
-      grid-area: filter;
-    }
-
-    input[type="button"] {
-      grid-area: button;
     }
   </style>
   <script>
