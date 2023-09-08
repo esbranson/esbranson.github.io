@@ -109,8 +109,8 @@
     </datalist>
     <datalist id="defaultFilters">
       <option value=""></option>
-      <option value="//an:content|//an:num|//an:intro"></option>
-      <option value="//uslm:content[not(contains(@class,'block'))]|//uslm:num|//uslm:chapeau|//uslm:foreign"></option>
+      <option value="//an:content | //an:num | //an:intro | //an:wrapUp"></option>
+      <option value="//uslm:content[(not(contains(@class,'block')) or (contains(@class,'block') and not(*) or (contains(@class,'block') and count(*) = count(uslm:quotedText)))) and not(descendant::uslm:toc)] | //uslm:num | //uslm:chapeau | //uslm:foreign"></option>
     </datalist>
   </div>
   <law-app id="app"></law-app>
