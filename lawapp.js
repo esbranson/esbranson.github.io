@@ -11,14 +11,6 @@ class LawApp extends HTMLElement {
 
         this.XPathResultPolyfill();
 
-        this.filter = this.hasAttribute("filter")
-            ? this.getAttribute("filter")
-            : "";
-
-        this.href = this.hasAttribute("href")
-            ? this.getAttribute("href")
-            : "";
-
         const linkElemAN = document.createElement("link");
         linkElemAN.setAttribute("rel", "stylesheet");
         linkElemAN.setAttribute("href", "akn.css");
@@ -32,6 +24,14 @@ class LawApp extends HTMLElement {
         const wrapper = document.createElement("span");
         this.#rootElement = wrapper;
         this.shadowRoot.append(wrapper);
+
+        this.filter = this.hasAttribute("filter")
+            ? this.getAttribute("filter")
+            : "";
+
+        this.href = this.hasAttribute("href")
+            ? this.getAttribute("href")
+            : "";
     }
 
     doIt(data, filter) {
@@ -65,6 +65,7 @@ class LawApp extends HTMLElement {
     // each update can impact performance.»
     //
 
+    // Refreshes are only done by setting href.
     set href(value) {
         console.debug('set href', this.filter, { value });
 
@@ -79,9 +80,7 @@ class LawApp extends HTMLElement {
 
         // We accept empty strings.
         this.#filter = value;
-        if (this.href) {
-            LawApp.doFetch(this.href)?.then(data => this.doIt(data, value));
-        }
+        // Refreshes are only done by setting href.
     }
 
     get href() { return this.#href; }
@@ -95,10 +94,11 @@ class LawApp extends HTMLElement {
         console.debug('attribute changed', { name }, { newValue });
         if (oldValue == newValue) { return; }
 
-        if (name == "href" && this.href != newValue) {
+        if (name == "href") {
+            // Fetches are only done by setting href.
             this.href = newValue;
         }
-        else if (name == "filter" && this.filter != newValue) {
+        else if (name == "filter") {
             this.filter = newValue;
         }
     }
