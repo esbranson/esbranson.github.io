@@ -68,6 +68,7 @@ class LawApp extends HTMLElement {
     set href(value) {
         console.debug('set href', this.filter, { value });
 
+        // We do not accept empty strings.
         if (value) {
             LawApp.doFetch(value)?.then(data => this.doIt(data, this.filter))?.then(() => {this.#href = value});
         }
@@ -76,8 +77,10 @@ class LawApp extends HTMLElement {
     set filter(value) {
         console.debug('set filter', { value }, this.href);
 
+        // We accept empty strings.
+        this.#filter = value;
         if (this.href) {
-            LawApp.doFetch(this.href)?.then(data => this.doIt(data, value))?.then(() => {this.#filter = value});
+            LawApp.doFetch(this.href)?.then(data => this.doIt(data, value));
         }
     }
 
