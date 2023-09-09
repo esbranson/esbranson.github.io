@@ -52,8 +52,9 @@
     row-gap: 0.5rem;
 }
 
-#url, #filter {
-    width: 100%;
+/* To prevent zooming */
+input {
+    font-size: 16px;
 }
 
 /* Styles for medium devices like tablets */
@@ -80,6 +81,11 @@
     #url, #filter {
         flex: 1; /* Allow items to grow and shrink */
         min-width: 30%;
+    }
+
+    /* Reset zooming override */
+    input {
+        font-size: revert;
     }
 }
 
@@ -125,8 +131,8 @@
     </datalist>
     <datalist id="defaultFilters">
       <option value=""></option>
+      <option value="//uslm:chapeau | //uslm:foreign | //uslm:proviso | //uslm:section//uslm:num | //uslm:appropriations//uslm:num | //uslm:content[(not(contains(@class,'block')) or (contains(@class,'block') and not(*) or (contains(@class,'block') and count(*) = count(uslm:quotedText)))) and not(descendant::uslm:toc)]"></option>
       <option value="//an:content | //an:num | //an:intro | //an:wrapUp"></option>
-      <option value="//uslm:content[(not(contains(@class,'block')) or (contains(@class,'block') and not(*) or (contains(@class,'block') and count(*) = count(uslm:quotedText)))) and not(descendant::uslm:toc)] | //uslm:num | //uslm:chapeau | //uslm:foreign"></option>
     </datalist>
   </div>
   <law-app id="app"></law-app>
