@@ -39,40 +39,56 @@
     }
   </script>
   <style>
-    @media screen and (orientation: portrait) {
-      .controls {
-        display: grid;
-        grid-template-areas: "urlLabel"
-          "url"
-          "filterLabel"
-          "filter"
-          "button";
-      }
-    }
+/* Default styles for mobile and smaller devices */
+.controls {
+    display: grid;
+    grid-template-areas: 
+        "urlLabel"
+        "url"
+        "filterLabel"
+        "filter"
+        "button";
+    column-gap: 1rem;
+    row-gap: 0.5rem;
+}
 
-    @media screen and (not (orientation: portrait)) {
-      .controls {
+#url, #filter {
+    width: 100%;
+}
+
+/* Styles for medium devices like tablets */
+@media screen and (min-width: 600px) and (max-width: 900px) {
+    .controls {
+        grid-template-areas: 
+            "urlLabel url"
+            "filterLabel filter"
+            "button button";
+        grid-template-columns: auto 1fr;
+    }
+}
+
+/* Styles for larger screens and landscape orientation */
+@media screen and (min-width: 900px) {
+    .controls {
         display: flex;
         flex-flow: row wrap;
         justify-content: center;
         column-gap: 1em;
         row-gap: 0.5em;
-      }
-
-      #url {
-        min-width: 30em;
-      }
-
-      #filter {
-        min-width: 45em;
-      }
     }
 
-    @media print {
-      .controls {
+    #url, #filter {
+        flex: 1; /* Allow items to grow and shrink */
+        min-width: 30%;
+    }
+}
+
+/* Styles for print media */
+@media print {
+    .controls {
         display: none;
-      }
     }
+}
   </style>
   <script>
     async function doEat() {
@@ -91,9 +107,9 @@
 
 <body>
   <div class="controls">
-    <label for="url">Akoma Ntoso URL:</label>
+    <label for="url">URL:</label>
     <input id="url" name="url" type="url" list="defaultURLs" required />
-    <label for="filter">XPath filter (to hide) (optional):</label>
+    <label for="filter">Filter XPath (optional):</label>
     <input id="filter" name="filter" type="text" list="defaultFilters">
     <input type="button" onclick="doEat()" value="Open">
     <datalist id="defaultURLs">
