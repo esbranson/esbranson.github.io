@@ -65,14 +65,26 @@ class LawApp extends HTMLElement {
     // each update can impact performance.»
     //
 
-    // Refreshes are only done by setting href.
+    // Refreshes are only done by setting href or xmlDocument.
     set href(value) {
         console.debug('set href', this.filter, { value });
 
         // We do not accept empty strings.
         if (value) {
-            LawApp.doFetch(value)?.then(data => this.doIt(data, this.filter))?.then(() => {this.#href = value});
+            LawApp.doFetch(value)?.then(data => this.doIt(data, this.filter));
         }
+        this.#href = value;
+    }
+
+    // Refreshes are only done by setting href or xmlDocument.
+    set xmlDocument(value) {
+        console.debug('set xmlDocument', this.filter, { value });
+
+        // We do not accept empty data.
+        if (value) {
+            this.doIt(value, this.filter);
+        }
+        this.#href = '';
     }
 
     set filter(value) {
@@ -84,6 +96,7 @@ class LawApp extends HTMLElement {
     }
 
     get href() { return this.#href; }
+    // Not sure what to do about getting xmlDocument.
     get filter() { return this.#filter; }
 
     static get observedAttributes() {
