@@ -169,7 +169,7 @@ function readFile(file) {
     </datalist>
     <datalist id="defaultFilters">
       <option value=""></option>
-      <option value="//uslm:chapeau | //uslm:foreign | //uslm:proviso | //uslm:section//uslm:num | //uslm:appropriations//uslm:num | //uslm:content[(not(contains(@class,'block')) or (contains(@class,'block') and not(*) or (contains(@class,'block') and count(*) = count(uslm:quotedText | uslm:headingText)))) and not(descendant::uslm:toc)]"></option>
+      <option value="//uslm:chapeau | //uslm:foreign | //uslm:proviso | //uslm:section//uslm:num[not(parent::uslm:section[position()=1])] | //uslm:appropriations//uslm:num | //uslm:content[(not(contains(@class,'block')) or (contains(@class,'block') and not(*) or (contains(@class,'block') and count(*) = count(uslm:quotedText | uslm:headingText)))) and not(descendant::uslm:toc)]"></option>
       <option value="//an:content | //an:num | //an:intro | //an:wrapUp"></option>
     </datalist>
   </div>
