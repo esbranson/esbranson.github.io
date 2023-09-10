@@ -21,6 +21,22 @@ class LawApp extends HTMLElement {
         linkElemUSLM.setAttribute("href", "uslm.css");
         this.shadowRoot.appendChild(linkElemUSLM);
 
+        /* Override the default pLaw right float behavior to hide the sidenotes and expand the text into that space */
+        const styleEl = document.createElement("style");
+        styleEl.textContent += `pLaw sidenote {
+            float: none;
+            margin-right: 0;
+            
+            display: none;
+            margin-top: 0;
+            margin-bottom: 0; 
+          }
+          
+          pLaw > * {
+            width: 100%; 
+          }`;
+        this.shadowRoot.appendChild(styleEl);
+
         const wrapper = document.createElement("span");
         this.#rootElement = wrapper;
         this.shadowRoot.append(wrapper);
